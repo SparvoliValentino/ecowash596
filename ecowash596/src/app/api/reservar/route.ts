@@ -1,7 +1,7 @@
 export async function POST(req: Request) {
     const body = await req.json();
   
-    const googleScriptURL = "https://script.google.com/macros/s/AKfycbzo-CziHX1K6fIyrlbVMnNPhjT_Z6YleAO-WD4QUCuFVx7FmmGsBrktDp9kcOULtsooKg/exec";
+    const googleScriptURL = "https://script.google.com/macros/s/AKfycbwwDatq0SiviRULvDJ9zw2uEjQBPwasOsQqG-xKqc23PKKzQS-Bst-3rpyPUcs5i1_V_Q/exec";
   
     try {
       const res = await fetch(googleScriptURL, {
@@ -26,8 +26,7 @@ export async function POST(req: Request) {
           headers: { "Content-Type": "application/json" },
         });
       }
-  
-  
+      
       return new Response(JSON.stringify(data), {
         status: 200,
         headers: {

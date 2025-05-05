@@ -1,5 +1,6 @@
 import Image from "next/image"
 import logo from "../../../public/ecowashLogo.png"
+import Link from "next/link";
 const Header = ()=>{
     return(
         <div className="w-full bg-[#252525]">
@@ -12,9 +13,9 @@ const Header = ()=>{
                 </div>
                 <div className="w-full">
                     <ul className="w-full flex justify-evenly items-center">
-                        <li className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs">Lavados</li>
-                        <li className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs">Turnos</li>
-                        <li className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs">Nosotros</li>
+                        <Link href={"/lavados"} className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs">Lavados</Link>
+                        <Link href={"/"} className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs">Turnos</Link>
+                        <Link href={"/nosotros"} className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs">Nosotros</Link>
                     </ul>
                 </div>
             </div>

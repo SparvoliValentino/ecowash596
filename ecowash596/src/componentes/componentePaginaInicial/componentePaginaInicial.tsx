@@ -5,6 +5,8 @@ import { fetchTurnosDisponibles, getFechasUnicas, Turno } from "../../helper/app
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+
 
 export default function TurnosDisponibles() {
   const [turnos, setTurnos] = useState<Turno[]>([]);
@@ -14,82 +16,114 @@ export default function TurnosDisponibles() {
   const API_URL = "/api/reservar";
 
 
-
   useEffect(() => {
     const cargarTurnos = async () => {
       const turnosDisponibles = await fetchTurnosDisponibles();
       const fechasUnicas = getFechasUnicas(turnosDisponibles);
+
+      console.log("Fechas únicas cargadas:", fechasUnicas);
+
       setTurnos(turnosDisponibles);
       setFechas(fechasUnicas);
 
       if (fechasUnicas.length > 0) {
-        setFechaSeleccionada(new Date(fechasUnicas[0]));
+        // 🔥 Aseguramos que sea un Date válido
+        const fechaValida = new Date(fechasUnicas[0] + "T00:00:00");
+        setFechaSeleccionada(fechaValida);
       }
     };
 
     cargarTurnos();
   }, []);
 
+
+
   const estaDisponible = (date: Date) => {
-    return fechas.some(
-      (f) => new Date(f).toDateString() === date.toDateString()
-    );
+    const dateFormatted = format(date, "yyyy-MM-dd"); // convierte el objeto date a "2025-04-29"
+    return fechas.includes(dateFormatted); // compara contra el array de strings
   };
 
-  const fechaStrSeleccionada = fechaSeleccionada?.toISOString().split("T")[0] ?? "";
+  const fechaStrSeleccionada = fechaSeleccionada
+    ? fechaSeleccionada.toLocaleDateString("en-CA") // "YYYY-MM-DD"
+    : "";
+
+
+
+  console.log(fechaStrSeleccionada)
+
 
   const turnosFiltrados = turnos.filter(
     (t) => t.fecha === fechaStrSeleccionada
   );
 
+
+
   const reservarTurno = async (turno: Turno) => {
     const { value: formValues } = await Swal.fire({
       title: `Reservar ${turno.hora} - ${turno.fecha}`,
-      html:
-        '<input id="swal-input1" class="swal2-input" placeholder="Tu nombre">' +
-        '<input id="swal-input2" class="swal2-input" placeholder="Teléfono">',
+      html: `
+        <input id="swal-auto" class="swal2-input" placeholder="Marca y modelo del auto">
+        <input id="swal-telefono" class="swal2-input" placeholder="Teléfono">
+        <select id="swal-lavado" class="swal2-select">
+          <option value="">Tipo de lavado</option>
+          <option value="basica">Convencional</option>
+          <option value="premium">Premium</option>
+        </select>
+      `,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Confirmar reserva",
       cancelButtonText: "Cancelar",
       preConfirm: () => {
-        const nombre = (document.getElementById("swal-input1") as HTMLInputElement)?.value.trim();
-        const telefono = (document.getElementById("swal-input2") as HTMLInputElement)?.value.trim();
-
-        if (!nombre || !telefono) {
-          Swal.showValidationMessage("Ambos campos son obligatorios");
+        const auto = (document.getElementById("swal-auto") as HTMLInputElement)?.value.trim();
+        const telefono = (document.getElementById("swal-telefono") as HTMLInputElement)?.value.trim();
+        const tipoLavado = (document.getElementById("swal-lavado") as HTMLSelectElement)?.value;
+  
+        if (!auto || !telefono || !tipoLavado) {
+          Swal.showValidationMessage("Todos los campos son obligatorios");
           return;
         }
-
-        return { nombre, telefono };
+  
+        return { auto, telefono, tipoLavado };
       }
     });
-
+  
     if (formValues) {
+      // ✅ Cortamos la hora a los primeros 5 caracteres: "08:30"
+      const horaFormateada = turno.hora?.toString().slice(0, 5);
+  
       try {
+        console.log("📤 Datos enviados al backend:", {
+          fecha: turno.fecha,
+          hora: horaFormateada,
+          auto: formValues.auto,
+          telefono: formValues.telefono,
+          tipoLavado: formValues.tipoLavado,
+        });
+  
         const res = await fetch(API_URL, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", // 👈 esto fuerza preflight
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             fecha: turno.fecha,
-            hora: turno.hora,
-            nombre: formValues.nombre,
+            hora: horaFormateada,
+            auto: formValues.auto,
             telefono: formValues.telefono,
+            tipoLavado: formValues.tipoLavado,
           }),
         });
-
+  
         const data = await res.json();
-
+  
         if (data.success) {
           Swal.fire({
             icon: "success",
             title: "¡Turno reservado!",
             text: "Te esperamos en el lavadero 🚗🫧",
           });
-
-          // Eliminar el turno reservado del estado
+  
           setTurnos((prev) =>
             prev.filter((t) => !(t.fecha === turno.fecha && t.hora === turno.hora))
           );
@@ -109,41 +143,49 @@ export default function TurnosDisponibles() {
       }
     }
   };
+  
 
   return (
     <div className="p-4 max-w-xl mx-auto">
-      <h1 className="text-xl font-bold mb-4">Reservá tu turno</h1>
+      <h1 className="text-5xl text-white bangers-regular text-center font-bold mb-4">Reservá tu turno</h1>
+      <div className="w-full flex flex-col justify-start items-center gap-5">
+        <label className="block text-2xl font-bold text-yellow-300 mb-2">Seleccioná una fecha:</label>
+        <DatePicker
+          selected={fechaSeleccionada instanceof Date && !isNaN(fechaSeleccionada.getTime()) ? fechaSeleccionada : null}
+          onChange={(date: Date | null) => setFechaSeleccionada(date)}
+          dateFormat="yyyy-MM-dd"
+          filterDate={estaDisponible}
+          placeholderText="Seleccioná una fecha"
+          className="mb-4 p-2 rounded w-full text-black bg-white inset-shadow-strong"
+        />
 
-      <label className="block text-sm font-medium text-gray-200 mb-2">Seleccioná una fecha:</label>
-      <DatePicker
-        selected={fechaSeleccionada}
-        onChange={(date: Date | null) => setFechaSeleccionada(date)}
-        dateFormat="yyyy-MM-dd"
-        filterDate={estaDisponible}
-        placeholderText="Seleccioná una fecha"
-        className="mb-4 p-2 rounded w-full text-black"
-      />
-
-      <ul className="space-y-2">
-        {turnosFiltrados.length === 0 ? (
-          <p className="text-sm text-gray-400">No hay turnos disponibles para esta fecha.</p>
-        ) : (
-          turnosFiltrados.map((turno, i) => (
-            <li
-              key={i}
-              className="p-3 bg-white rounded shadow flex justify-between items-center"
-            >
-              <span className="text-black">{turno.hora}</span>
-              <button
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                onClick={() => reservarTurno(turno)}
+      </div>
+      <div className="w-full flex flex-col justify-start items-center gap-5">
+        <h2 className="text-2xl text-yellow-300 font-bold">Turnos disponibles:</h2>
+        <ul className="space-y-2">
+          {turnosFiltrados.length === 0 ? (
+            <p className="text-sm text-yellow-400">No hay turnos disponibles para esta fecha.</p>
+          ) : (
+            turnosFiltrados.map((turno, i) => (
+              <li
+                key={i}
+                className="bg-white w-[400px] p-2 rounded-2xl inset-shadow-strong flex justify-evenly items-center border-2 border-red-500"
               >
-                Reservar
-              </button>
-            </li>
-          ))
-        )}
-      </ul>
+                <div className="flex flex-col">
+                  <h2>Horario:</h2>
+                  <span className="text-black font-black text-2xl">{turno.hora}</span>
+                </div>
+                <button
+                  className="bg-yellow-500 text-black font-semibold px-3 py-1 rounded hover:bg-yellow-600"
+                  onClick={() => reservarTurno(turno)}
+                >
+                  Reservar
+                </button>
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
     </div>
   );
 }
