@@ -16,12 +16,12 @@ const informacionLavadero = () => {
             <h2 className="text-5xl text-white bangers-regular text-center font-bold mb-4">Informacion del lavadero</h2>
             <div className="relative w-[500px] mx-auto mt-6">
                 {/* Cinta superior */}
-                <div className="absolute bangers-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-yellow-400 text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
+                <div className="absolute bangers-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-[#FFEB3B] text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
                     Ubicacion
                 </div>
 
                 {/* Contenedor de información */}
-                <div className="border border-yellow-400 rounded-xl p-6 text-center text-xl text-white font-semibold leading-relaxed">
+                <div className="border border-[#FFEB3B] rounded-xl p-6 text-center text-xl text-white font-semibold leading-relaxed">
                     <p>Leon Guruciaga 596</p>
                     <p>San nicolas de los arroyos</p>
                     <iframe
@@ -38,24 +38,24 @@ const informacionLavadero = () => {
             </div>
             <div className="relative w-[500px] mx-auto mt-6">
                 {/* Cinta superior */}
-                <div className="absolute bangers-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-yellow-400 text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
+                <div className="absolute bangers-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-[#FFEB3B] text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
                     Horarios
                 </div>
 
                 {/* Contenedor de información */}
-                <div className="border border-yellow-400 rounded-lg p-6 text-center text-xl text-white  font-semibold leading-relaxed">
+                <div className="border border-[#FFEB3B] rounded-lg p-6 text-center text-xl text-white  font-semibold leading-relaxed">
                     <p>Lunes a sábados de 8:00 a 16:00hs</p>
                 </div>
             </div>
 
             <div className="relative w-[500px] mx-auto mt-6">
                 {/* Cinta superior */}
-                <div className="absolute bangers-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-yellow-400 text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
+                <div className="absolute bangers-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-[#FFEB3B] text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
                     Redes
                 </div>
 
                 {/* Contenedor de información */}
-                <div className="border border-yellow-400 rounded-lg p-6 text-center text-xl text-white  font-semibold leading-relaxed flex justify-evenly items-center">
+                <div className="border border-[#FFEB3B] rounded-lg p-6 text-center text-xl text-white  font-semibold leading-relaxed flex justify-evenly items-center">
                     <a href={generateWhatsAppLink()} target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faWhatsapp} className="text-green-500 size-[100px]" />
                     </a>
@@ -66,7 +66,7 @@ const informacionLavadero = () => {
             </div>
 
             <h3 className="text-5xl text-white text-center bangers-regular font-bold mb-4">Tipos de lavado</h3>
-            <Link href={"/lavados"} className="bg-red-500 w-1/2 p-3 text-xl font-semibold text-white border-2 border-yellow-400 text-center rounded-lg hover:bg-red-700 hover:border-yellow-400">Explora nuestros lavados</Link>
+            <Link href={"/lavados"} className="bg-red-500 w-1/2 p-3 text-xl font-semibold text-white border-2 border-[#FFEB3B] text-center rounded-lg hover:bg-red-700 hover:border-[#FFEB3B]">Explora nuestros lavados</Link>
 
 
 

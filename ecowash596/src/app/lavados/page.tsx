@@ -12,17 +12,17 @@ const lavados = () => {
                 <div className="flex justify-evenly gap-6">
                     <div className="relative w-1/2 mx-auto mt-6">
                         {/* Cinta superior */}
-                        <div className="absolute anton-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-yellow-500 border-2 border-yellow-500 text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
+                        <div className="absolute anton-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-[#FFEB3B] border-2 border-[#FFEB3B] text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
                             Basico
                         </div>
 
                         {/* Contenedor de información */}
-                        <div className="border border-yellow-500 rounded-lg p-6 text-center text-xl text-white flex flex-col gap-3 font-semibold leading-relaxed">
+                        <div className="border border-[#FFEB3B] rounded-lg p-6 text-center text-xl text-white flex flex-col gap-3 font-semibold leading-relaxed">
                             <h2 className="anton-regulars mt-3">¿Que incluye?</h2>
                             <p>Lavado de exterior</p>
-                            <p>Asapirado</p>
+                            <p>Aspirado</p>
                             <p>Limpieza y acondicionamiento interior</p>
-                            <div className="text-center w-full border-t-2 border-yellow-500">
+                            <div className="text-center w-full border-t-2 border-[#FFEB3B]">
                                 <h2 className="anton-regulars text-center">Precios</h2>
                             </div>
                             <div className="flex justify-evenly items-center">

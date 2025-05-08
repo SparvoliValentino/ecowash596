@@ -9,8 +9,12 @@ export async function POST(req: Request) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          ...body,
+          action: "reservarTurno"
+        }),
       });
+      
   
       const text = await res.text();
       console.log("RESPUESTA RAW DE GOOGLE SCRIPT:", text);
