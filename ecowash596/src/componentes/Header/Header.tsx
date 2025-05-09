@@ -13,9 +13,9 @@ const Header = ()=>{
                 </div>
                 <div className="w-full">
                     <ul className="w-full flex justify-evenly items-center">
-                        <Link href={"/lavados"} className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs">Lavados</Link>
-                        <Link href={"/"} className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs">Turnos</Link>
-                        <Link href={"/nosotros"} className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs">Nosotros</Link>
+                        <Link href={"/lavados"} className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs text-black">Lavados</Link>
+                        <Link href={"/"} className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs text-black">Turnos</Link>
+                        <Link href={"/nosotros"} className="bg-white rounded-2xl p-3 font-bold inset-shadow-2xs text-black">Nosotros</Link>
                     </ul>
                 </div>
             </div>

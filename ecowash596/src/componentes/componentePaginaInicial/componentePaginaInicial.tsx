@@ -64,7 +64,7 @@ export default function TurnosDisponibles() {
       html: `
         <input id="swal-auto" class="swal2-input" placeholder="Marca y modelo del auto">
         <input id="swal-telefono" class="swal2-input" placeholder="Teléfono">
-        <select id="swal-lavado" class="swal2-select" onchange="actualizarInfoLavado(this.value)">
+        <select id="swal-lavado" class="swal2-select">
           <option value="">Selecciona un tipo de lavado</option>
           <option value="basica">Convencional</option>
           <option value="premium">Premium</option>
@@ -88,10 +88,11 @@ export default function TurnosDisponibles() {
         return { auto, telefono, tipoLavado };
       },
       didOpen: () => {
-        const infoDiv = document.getElementById("swal-info-lavado");
         const select = document.getElementById("swal-lavado") as HTMLSelectElement;
         select.addEventListener("change", (e) => {
           const tipo = (e.target as HTMLSelectElement).value;
+          const infoDiv = document.getElementById("swal-info-lavado");
+          
           if (tipo === "basica") {
             infoDiv!.innerHTML = `
               <h3><strong>Lavado Básico</strong></h3>
@@ -174,6 +175,7 @@ export default function TurnosDisponibles() {
     }
   };
   
+  
 
   return (
     <div className="p-4 max-w-xl mx-auto">
@@ -202,7 +204,7 @@ export default function TurnosDisponibles() {
                 className="bg-white w-[400px] p-2 rounded-2xl inset-shadow-strong flex justify-evenly items-center border-2 border-[#C62828]"
               >
                 <div className="flex flex-col">
-                  <h2>Horario:</h2>
+                  <h2 className="text-black">Horario:</h2>
                   <span className="text-black font-black text-2xl">{turno.hora}</span>
                 </div>
                 <button
