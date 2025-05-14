@@ -155,9 +155,9 @@ const AdminPanel = () => {
                                             <span>{t.telefono}</span>
                                         </div>
                                         <div className="flex gap-4 mt-2">
-                                            <button onClick={() => confirmarLiberacion(t)} className="bg-red-500 text-white font-semibold px-3 py-1 rounded hover:bg-red-600 transition">
+                                            {/* <button onClick={() => confirmarLiberacion(t)} className="bg-red-500 text-white font-semibold px-3 py-1 rounded hover:bg-red-600 transition">
                                                 Liberar turno
-                                            </button>
+                                            </button> */}
                                             <button onClick={() => contactarPorWhatsApp(t.telefono)} className="bg-green-500 text-white font-semibold px-3 py-1 rounded hover:bg-green-600 transition">
                                                 Contactar por WhatsApp
                                             </button>
