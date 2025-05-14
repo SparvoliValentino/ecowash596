@@ -16,7 +16,7 @@ const footer =()=>{
     return (
         <footer className="bg-[#252525]">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-                <div className="md:flex md:justify-between">
+                <div className="md:flex md:justify-between mt-5">
                     <div className="mb-6 md:mb-0">
                         <Link href={'/'} className="flex items-center">
                             {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> */}
@@ -32,10 +32,10 @@ const footer =()=>{
                             <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Sobre nosotros</h2>
                             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
-                                    <a href="https://flowbite.com/" className="hover:underline">Quienes somos?</a>
+                                    <a href="/nosotros" className="hover:underline">Quienes somos?</a>
                                 </li>
                                 <li>
-                                    <a href="https://tailwindcss.com/" className="hover:underline">Donde estamos?</a>
+                                    <a href="/turnos" className="hover:underline">Donde estamos?</a>
                                 </li>
                             </ul>
                         </div>
@@ -43,18 +43,15 @@ const footer =()=>{
                             <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Nuestras redes</h2>
                             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
-                                    <a href="https://github.com/themesberg/flowbite" className="hover:underline ">Instagram</a>
-                                </li>
-                                <li>
-                                    <a href="https://discord.gg/4eeurUVvTy" className="hover:underline">Facebook</a>
+                                    <a href="https://www.instagram.com/eco.wash596?igsh=a3lieDh4N2trcGY3" className="hover:underline ">Instagram</a>
                                 </li>
                             </ul>
                         </div>
                         <div>
-                            <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Productos</h2>
+                            <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Nuestros lavados</h2>
                             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
-                                    <a href="#" className="hover:underline">Todos</a>
+                                    <a href="/lavados" className="hover:underline">Convencional o Premium?</a>
                                 </li>
                             </ul>
                         </div>

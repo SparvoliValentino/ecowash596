@@ -4,8 +4,8 @@ import Link from "next/link";
 const Header = ()=>{
     return(
         <div className="w-full bg-[#252525]">
-            <div className="max-w-[1500px] mx-auto flex flex-col gap-4">
-                <div className="w-full flex justify-center items-center">
+            <div className="max-w-[1500px] mx-auto flex flex-col gap-5">
+                <div className="w-full flex justify-center items-center my-4">
                     <Image
                         src={logo}
                         alt=""

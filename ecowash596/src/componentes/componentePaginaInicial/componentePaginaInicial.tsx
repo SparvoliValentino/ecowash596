@@ -62,14 +62,13 @@ export default function TurnosDisponibles() {
     const { value: formValues } = await Swal.fire({
       title: `Reservar ${turno.hora} - ${turno.fecha}`,
       html: `
-        <input id="swal-auto" class="swal2-input" placeholder="Marca y modelo del auto">
-        <input id="swal-telefono" class="swal2-input" placeholder="Teléfono">
+        <input id="swal-auto" class="swal2-input" placeholder="Modelo o patente del vehiculo">
+        <input id="swal-telefono" class="swal2-input" placeholder="Teléfono para contactarte">
         <select id="swal-lavado" class="swal2-select">
-          <option value="">Selecciona un tipo de lavado</option>
+          <option value="">Tipo de lavado</option>
           <option value="basica">Convencional</option>
           <option value="premium">Premium</option>
         </select>
-        <div id="swal-info-lavado" style="margin-top: 10px; text-align: left;"></div>
       `,
       focusConfirm: false,
       showCancelButton: true,
@@ -79,64 +78,41 @@ export default function TurnosDisponibles() {
         const auto = (document.getElementById("swal-auto") as HTMLInputElement)?.value.trim();
         const telefono = (document.getElementById("swal-telefono") as HTMLInputElement)?.value.trim();
         const tipoLavado = (document.getElementById("swal-lavado") as HTMLSelectElement)?.value;
-        
+  
         if (!auto || !telefono || !tipoLavado) {
           Swal.showValidationMessage("Todos los campos son obligatorios");
           return;
         }
   
         return { auto, telefono, tipoLavado };
-      },
-      didOpen: () => {
-        const select = document.getElementById("swal-lavado") as HTMLSelectElement;
-        select.addEventListener("change", (e) => {
-          const tipo = (e.target as HTMLSelectElement).value;
-          const infoDiv = document.getElementById("swal-info-lavado");
-          
-          if (tipo === "basica") {
-            infoDiv!.innerHTML = `
-              <h3><strong>Lavado Básico</strong></h3>
-              <p>Incluye:</p>
-              <ul>
-                <li>Lavado de exterior</li>
-                <li>Aspirado</li>
-                <li>Limpieza y acondicionamiento interior</li>
-              </ul>
-              <p><strong>Precios:</strong></p>
-              <ul>
-                <li>Auto: $15.000</li>
-                <li>Pick Up: $16.000</li>
-                <li>Camioneta: $20.000</li>
-              </ul>
-            `;
-          } else if (tipo === "premium") {
-            infoDiv!.innerHTML = `
-              <h3><strong>Lavado Premium</strong></h3>
-              <p>Incluye:</p>
-              <ul>
-                <li>Lavado con productos Toxic Shine</li>
-                <li>Limpieza con cera de interior y exterior</li>
-                <li>Revividor de cubiertas y sellador repelente al agua</li>
-              </ul>
-              <p><strong>Precios:</strong></p>
-              <ul>
-                <li>Auto: $20.000</li>
-                <li>Pick Up: $21.000</li>
-                <li>Camioneta: $25.000</li>
-              </ul>
-            `;
-          } else {
-            infoDiv!.innerHTML = "";
-          }
-        });
       }
     });
   
     if (formValues) {
+      // ✅ Mostrar el Swal de carga
+      Swal.fire({
+        title: "Reservando tu turno...",
+        text: "Por favor, espera un momento.",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+  
+      // ✅ Cortamos la hora a los primeros 5 caracteres: "08:30"
       const horaFormateada = turno.hora?.toString().slice(0, 5);
   
       try {
-        const res = await fetch("/api/reservar", {
+        console.log("📤 Datos enviados al backend:", {
+          fecha: turno.fecha,
+          hora: horaFormateada,
+          auto: formValues.auto,
+          telefono: formValues.telefono,
+          tipoLavado: formValues.tipoLavado,
+        });
+  
+        const res = await fetch(API_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -151,6 +127,7 @@ export default function TurnosDisponibles() {
         });
   
         const data = await res.json();
+        Swal.close(); // ✅ Cerrar Swal de carga
   
         if (data.success) {
           Swal.fire({
@@ -158,6 +135,10 @@ export default function TurnosDisponibles() {
             title: "¡Turno reservado!",
             text: "Te esperamos en el lavadero 🚗🫧",
           });
+  
+          setTurnos((prev) =>
+            prev.filter((t) => !(t.fecha === turno.fecha && t.hora === turno.hora))
+          );
         } else {
           Swal.fire({
             icon: "error",
@@ -166,6 +147,7 @@ export default function TurnosDisponibles() {
           });
         }
       } catch (err) {
+        Swal.close();
         Swal.fire({
           icon: "error",
           title: "Error de red",
@@ -175,8 +157,6 @@ export default function TurnosDisponibles() {
     }
   };
   
-  
-
   return (
     <div className="p-4 max-w-xl mx-auto">
       <h1 className="text-5xl text-white bangers-regular text-center font-bold mb-4">Reservá tu turno</h1>

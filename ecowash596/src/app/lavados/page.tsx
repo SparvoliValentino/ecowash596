@@ -9,8 +9,8 @@ const lavados = () => {
         <div className="bg-[#252525] min-h-screen w-full">
             <div className="max-w-[1500px] mx-auto flex flex-col justify-center items-center p-4 gap-4">
                 <h2 className="text-5xl bangers-regular tracking-wider  text-white text-center mt-5">Tipos de lavado</h2>
-                <div className="flex justify-evenly gap-6">
-                    <div className="relative w-1/2 mx-auto mt-6">
+                <div className="flex md:flex-row flex-col justify-evenly gap-6">
+                    <div className="relative w-full md:w-1/2 mx-auto mt-6">
                         {/* Cinta superior */}
                         <div className="absolute anton-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-[#FFEB3B] border-2 border-[#FFEB3B] text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
                             Basico
@@ -42,7 +42,7 @@ const lavados = () => {
                         </div>
                     </div>
 
-                    <div className="relative  w-1/2  mx-auto mt-6">
+                    <div className="relative w-full md:w-1/2  mx-auto mt-6">
                         {/* Cinta superior */}
                         <div className="absolute anton-regular -top-4 left-1/2 -translate-x-1/2 -translate-y-2 bg-red-500 border-2 border-red-500 text-black text-3xl font-bold px-4 py-1 rounded-md shadow">
                             Premium

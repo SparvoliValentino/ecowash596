@@ -9,10 +9,11 @@ export interface Turno {
   tipoLavado: string;
 }
 
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1ymGrDdw4LHRXU4mMzkY2rZ-dt4RYu3mjQJauK_Di8ic/gviz/tq?tqx=out:json"
+const SHEET_URL = process.env.NEXT_PUBLIC_SHEET_URL ?? "";
 
+// helper/appointmets.ts
 export const fetchTurnosDisponibles = async (): Promise<Turno[]> => {
-  const response = await fetch(SHEET_URL);
+  const response = await fetch(`${SHEET_URL}&_=${new Date().getTime()}`);
   const text = await response.text();
   
   const regex = /google\.visualization\.Query\.setResponse\(([\s\S]*)\);/;
@@ -24,23 +25,10 @@ export const fetchTurnosDisponibles = async (): Promise<Turno[]> => {
   
   const jsonData = JSON.parse(match[1]);
 
-  // Mapear cada fila a un objeto Turno
   const rows: Turno[] = jsonData.table.rows.map((row: { c: { v?: any; f?: any }[] }): Turno => {
     const c = row.c;
-
-    let fecha = "";
-
-    // ✅ Verificamos si existe como fecha y la convertimos
-    if (c[0]?.f) {
-      fecha = format(parseISO(c[0].f), "yyyy-MM-dd");
-    } else if (c[0]?.v && typeof c[0]?.v === "string") {
-      fecha = c[0]?.v.trim();
-    } else if (c[0]?.v instanceof Date) {
-      fecha = format(c[0]?.v, "yyyy-MM-dd");
-    }
-
     return {
-      fecha,
+      fecha: c[0]?.v?.toString().trim() ?? "",
       hora: c[1]?.v?.toString().trim() ?? "",
       estado: c[2]?.v?.toString().trim().toLowerCase() ?? "",
       auto: c[3]?.v?.toString().trim() ?? "",
@@ -49,10 +37,9 @@ export const fetchTurnosDisponibles = async (): Promise<Turno[]> => {
     };
   });
   
-  console.log("📅 Turnos recibidos del Sheet:", rows);
-  
-  return rows.filter((row: Turno) => row.estado === "disponible");
+  return rows.filter((row) => row.estado === "disponible");
 };
+
 
 
 export const getFechasUnicas = (turnos: Turno[]): string[] => {

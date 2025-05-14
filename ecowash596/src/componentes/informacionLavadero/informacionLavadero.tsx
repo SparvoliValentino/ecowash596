@@ -7,7 +7,7 @@ const informacionLavadero = () => {
     const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
     const generateWhatsAppLink = () => {
-        const encodedMessage = encodeURIComponent('Hola! Quisieras hacerles una consulta!');
+        const encodedMessage = encodeURIComponent('Hola Ecowash! Quisieras hacerles una consulta!');
         return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
     };
 
