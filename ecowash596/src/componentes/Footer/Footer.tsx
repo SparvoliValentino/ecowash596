@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../../public/ecowashLogo.png"
+import logo from "../../../public/ecowashLogo1.png"
 
-const footer =()=>{
+const footer = () => {
 
     const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
@@ -23,6 +23,10 @@ const footer =()=>{
                             <Image
                                 src={logo}
                                 alt=""
+                                width={250}   // ✅ Ajusta el ancho del logo
+                                height={100}  // ✅ Ajusta la altura del logo
+                                className="object-contain" // ✅ Mantiene proporciones
+                                priority  // ✅ Optimiza el renderizado
                             />
                             {/* <span className={`${poppins.className} text-outline text-2xl md:text-5xl font-semibold text-white whitespace-nowrap`}>MOND</span> */}
                         </Link>

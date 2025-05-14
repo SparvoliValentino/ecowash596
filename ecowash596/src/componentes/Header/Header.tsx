@@ -1,14 +1,18 @@
 import Image from "next/image"
-import logo from "../../../public/ecowashLogo.png"
+import logo from "../../../public/ecowashLogo1.png"
 import Link from "next/link";
-const Header = ()=>{
-    return(
+const Header = () => {
+    return (
         <div className="w-full bg-[#252525]">
             <div className="max-w-[1500px] mx-auto flex flex-col gap-5">
                 <div className="w-full flex justify-center items-center my-4">
                     <Image
                         src={logo}
                         alt=""
+                        width={250}   // ✅ Ajusta el ancho del logo
+                        height={100}  // ✅ Ajusta la altura del logo
+                        className="object-contain" // ✅ Mantiene proporciones
+                        priority  // ✅ Optimiza el renderizado
                     />
                 </div>
                 <div className="w-full">
